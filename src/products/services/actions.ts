@@ -1,4 +1,4 @@
-import { type Product, productsApi } from '../';
+import { type Product, productsApi } from '..';
 
 interface GetProductsOptions {
   filterKey?: string;
