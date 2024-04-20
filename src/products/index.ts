@@ -19,3 +19,4 @@ export * as productActions from './services/actions';
 export { useProducts } from './hooks/useProducts';
 export { useProduct } from './hooks/useProduct';
 export { usePrefetchProduct } from './hooks/usePrefetchProduct';
+export { useProductMutation } from './hooks/useProductMutation';
