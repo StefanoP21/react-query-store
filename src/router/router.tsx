@@ -3,6 +3,7 @@ import {
   CompleteListPage,
   MensPage,
   NewProduct,
+  ProductById,
   StoreLayout,
   WomensPage,
 } from '../products';
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
       {
         path: 'new',
         element: <NewProduct />,
+      },
+      {
+        path: 'product/:id',
+        element: <ProductById />,
       },
     ],
   },
