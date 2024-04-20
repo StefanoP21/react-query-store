@@ -10,6 +10,7 @@ export { WomensPage } from './pages/WomensPage';
 export { ProductById } from './pages/ProductById';
 
 export type { Product } from './interfaces/product';
+export type { ProductForm } from './interfaces/productForm';
 
 export { productsApi } from './api/productsApi';
 
