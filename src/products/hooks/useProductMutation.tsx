@@ -7,6 +7,17 @@ export const useProductMutation = () => {
 
   const mutation = useMutation({
     mutationFn: productActions.createProduct,
+    onMutate: (product) => {
+      const optimisticProduct: Product = { id: Math.random(), ...product };
+
+      queryClient.setQueryData(
+        ['products', { filterKey: product.category }],
+        (oldData: Product[] | undefined) => {
+          if (!oldData) return [optimisticProduct];
+          return [...oldData, optimisticProduct];
+        }
+      );
+    },
     onSuccess: (product) => {
       Swal.fire({
         title: 'Producto creado',
@@ -18,7 +29,7 @@ export const useProductMutation = () => {
 
       queryClient.setQueryData(
         ['products', { filterKey: product.category }],
-        (oldData: Product[]) => {
+        (oldData: Product[] | undefined) => {
           if (!oldData) return [product];
           return [...oldData, product];
         }

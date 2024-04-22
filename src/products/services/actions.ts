@@ -30,7 +30,7 @@ export const getProductById = async (id: number): Promise<Product> => {
 export const createProduct = async (
   product: ProductForm
 ): Promise<ProductForm> => {
-  await sleep(1);
+  await sleep(4);
 
   const { data } = await productsApi.post<ProductForm>('/products', product);
 
