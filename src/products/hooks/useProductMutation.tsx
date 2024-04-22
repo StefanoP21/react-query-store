@@ -17,8 +17,10 @@ export const useProductMutation = () => {
           return [...oldData, optimisticProduct];
         }
       );
+
+      return { optimisticProduct };
     },
-    onSuccess: (product) => {
+    onSuccess: (product, _variables, context) => {
       Swal.fire({
         title: 'Producto creado',
         icon: 'success',
@@ -27,11 +29,20 @@ export const useProductMutation = () => {
         showConfirmButton: false,
       });
 
+      queryClient.removeQueries({
+        queryKey: ['product', context?.optimisticProduct.id],
+      });
+
       queryClient.setQueryData(
         ['products', { filterKey: product.category }],
         (oldData: Product[] | undefined) => {
           if (!oldData) return [product];
-          return [...oldData, product];
+
+          return oldData.map((cacheProduct) => {
+            return cacheProduct.id === context?.optimisticProduct.id
+              ? product
+              : cacheProduct;
+          });
         }
       );
     },
