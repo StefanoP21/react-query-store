@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { productActions } from '..';
 
 interface Options {
-  id: number;
+  id: string;
 }
 
 export const useProduct = ({ id }: Options) => {

@@ -8,7 +8,10 @@ export const useProductMutation = () => {
   const mutation = useMutation({
     mutationFn: productActions.createProduct,
     onMutate: (product) => {
-      const optimisticProduct: Product = { id: Math.random(), ...product };
+      const optimisticProduct: Product = {
+        id: Math.random().toString(),
+        ...product,
+      };
 
       queryClient.setQueryData(
         ['products', { filterKey: product.category }],
