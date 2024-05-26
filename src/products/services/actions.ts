@@ -4,35 +4,56 @@ interface GetProductsOptions {
   filterKey?: string;
 }
 
-const sleep = (seconds: number): Promise<boolean> => {
-  return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
-};
-
 export const getProducts = async ({
   filterKey,
 }: GetProductsOptions): Promise<Product[]> => {
-  await sleep(1);
+  try {
+    const filterUrl = filterKey ? `?category=${filterKey}` : '';
+    const { data } = await productsApi.get<{
+      ok: boolean;
+      products: Product[];
+    }>(`/products${filterUrl}`);
 
-  const filterUrl = filterKey ? `?category=${filterKey}` : '';
-  const { data } = await productsApi.get<Product[]>(`/products${filterUrl}`);
+    if (typeof data !== 'object') {
+      throw new Error('Invalid data type');
+    }
 
-  return data;
+    return data.products;
+  } catch (error) {
+    console.log(error);
+    throw new Error('Failed to fetch products');
+  }
 };
 
-export const getProductById = async (id: number): Promise<Product> => {
-  await sleep(1);
+export const getProductById = async (id: string): Promise<Product> => {
+  try {
+    const { data } = await productsApi.get<{ ok: boolean; product: Product }>(
+      `/products/${id}`
+    );
 
-  const { data } = await productsApi.get<Product>(`/products/${id}`);
+    if (typeof data !== 'object') {
+      throw new Error('Invalid data type');
+    }
 
-  return data;
+    return data.product;
+  } catch (error) {
+    console.log(error);
+    throw new Error('Failed to fetch product');
+  }
 };
 
 export const createProduct = async (
   product: ProductForm
 ): Promise<ProductForm> => {
-  await sleep(2);
+  try {
+    const { data } = await productsApi.post<{
+      ok: boolean;
+      product: ProductForm;
+    }>('/products', product);
 
-  const { data } = await productsApi.post<ProductForm>('/products', product);
-
-  return data;
+    return data.product;
+  } catch (error) {
+    console.log(error);
+    throw new Error('Failed to create product');
+  }
 };
