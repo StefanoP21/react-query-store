@@ -5,7 +5,7 @@ import { type Product } from '..';
 interface Props {
   product: Product;
   fullDescription?: boolean;
-  prefetchProduct?: (id: number) => void;
+  prefetchProduct?: (id: string) => void;
 }
 
 export const ProductCard = ({
